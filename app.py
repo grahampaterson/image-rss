@@ -89,9 +89,10 @@ def index():
         resp = make_response(render_template('index.html'))
         resp.set_cookie('id', str(new_user.id))
         return resp
+    # load the users' subscriptions
     else:
         print('found cookie')
-        # tries to get user's subs otherwise fails
+        # tries to get user's subs
         try:
             User.query.get(user_id)
             # TODO update user last login with current date
@@ -102,10 +103,8 @@ def index():
                     images.append({"url" : image.url, "source" : image.source, "date" : image.date})
             return render_template('index.html', images=images)
         except:
-            resp = make_response(render_template('index.html'))
-            resp.set_cookie('id', '', expires=0)
-            print('no such user exists for this cookie, refresh to get a new cookie')
-            return resp
+            print('found user but could not load subscriptions')
+            return render_template('index.html', images=images)
 
 # url -> (array json)
 # receives an rss feed url and returns and array of json objects

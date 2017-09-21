@@ -5,7 +5,7 @@ Bugs
 - Improve removing small images (move server side?)
 - Fix isotope
 - Update user cookie date on landing
-- create new cookie on landing if current cookie doesn't exist on the server
+- create new cookie on landing if current cookie doesn't exist on the server __DONE__
 - More error reporting to find Bugs
 - Check out the disabled ssl certification??
 - limit subscriptions to one feed per user __DONE__
@@ -16,3 +16,4 @@ Bugs
 - Update the add interface so it doesn't add duplicates
 - Loader while feed is adding
 - Fix Sorting
+- Lazy load images if the user has a large amount of subs
