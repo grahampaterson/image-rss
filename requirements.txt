@@ -1,0 +1,12 @@
+beautifulsoup4==4.6.0
+bs4==0.0.1
+click==6.7
+feedparser==5.2.1
+Flask==0.12.2
+Flask-SQLAlchemy==2.2
+itsdangerous==0.24
+Jinja2==2.9.6
+lxml==3.8.0
+MarkupSafe==1.0
+SQLAlchemy==1.1.14
+Werkzeug==0.12.2

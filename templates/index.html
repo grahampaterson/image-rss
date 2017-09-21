@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body %}
+<!-- <form id="geturl" name="rssurl" method="get">
+  RSS URL
+  <input type="text" name="url">
+  <input type="submit" value="Submit">
+</form> -->
+http://beeple.tumblr.com/rss <br>
+http://feeds.feedblitz.com/thedieline <br>
+https://design.tutsplus.com/posts.atom <br>
+http://feeds.feedburner.com/FontsInUseAll <br>
+http://feeds.feedburner.com/Logopond <br>
+http://www.geek-art.net/en/feed/ <br>
+RSS URL
+<input type=text size=5 name=url>
+<span id=result>?</span>
+<a href=# id=calculate>Get Images</a>
+<div class="grid">
+  <div class="grid-sizer"></div>
+  {% for image in images %}
+    <div class="grid-item" date={{ image.date }} ><a href={{ image.source }} ><img src={{ image.url }} /></a></div>
+  {% endfor %}
+</div>
+
+{% endblock %}
