@@ -1,0 +1,16 @@
+Bugs
+- add to git
+- If feed url is similar to existing url (trailing space, different url etc...) a new feed entry will be added but it will be unable to associate with any images because their urls already exist in the other feed. possible solution, just add duplicate url data but don't allow image duplicates of images with same feed_id __DONE__
+- Improve removing small images (move server side?)
+- Fix isotope
+- Update user cookie date on landing
+- More error reporting to find Bugs
+- Check out the disabled ssl certification??
+- limit subscriptions to one feed per user __DONE__
+- convert regular urls to rss urls
+- confirm feed before adding to subscriptions
+- Drag and drop interface for selecting active feeds
+- Login system
+- Update the add interface so it doesn't add duplicates
+- Loader while feed is adding
+- Fix Sorting
