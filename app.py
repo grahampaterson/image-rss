@@ -11,6 +11,9 @@ db = SQLAlchemy(app)
 # ----------- Database Stuff --------------
 
 class User(db.Model):
+    __table_args__ = {
+        'sqlite_autoincrement': True,
+    }
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String())
     password = db.Column(db.String())
@@ -75,18 +78,20 @@ def index():
     user_id = request.cookies.get('id')
 
     # check if cookie exists and create one if it doesn't
-    # TODO make new user a separate function
     if user_id is None:
-        new_user = User(" ", " ", 0)
-        db.session.add(new_user)
-        db.session.commit()
+        new_user = new_user_db("", "")
         resp = make_response(render_template('index.html'))
         resp.set_cookie('id', str(new_user.id))
-        print('made new user')
+        return resp
+    # if cookie exists but user doesn't exist, create new user and new cookie
+    elif User.query.get(user_id) is None:
+        new_user = new_user_db("", "")
+        resp = make_response(render_template('index.html'))
+        resp.set_cookie('id', str(new_user.id))
         return resp
     else:
         print('found cookie')
-        # TODO check if cookie exists on server, if it doesn't create new user with new cookie
+        # tries to get user's subs otherwise fails
         try:
             User.query.get(user_id)
             # TODO update user last login with current date
@@ -102,9 +107,6 @@ def index():
             print('no such user exists for this cookie, refresh to get a new cookie')
             return resp
 
-
-
-
 # url -> (array json)
 # receives an rss feed url and returns and array of json objects
 @app.route('/addfeed')
@@ -115,6 +117,16 @@ def addfeed():
     return parser.url_to_json(url)
 
 # ----------- Functions --------------
+
+# String, String -> SQL User objects
+# Creates a new user with Username Password in the next available db position
+# and returns the new user sql object
+def new_user_db(username, password):
+    new_user = User(username, password, 0)
+    db.session.add(new_user)
+    db.session.commit()
+    print('made new user')
+    return new_user
 
 # URL, user_id -> DB subscriptions entry
 # takes a user ID and url and adds a subscriptions entry in the database
