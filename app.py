@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, url_for, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 import datetime
+import json
 
 import parser
 
@@ -97,25 +98,43 @@ def index():
             User.query.get(user_id)
             # TODO update user last login with current date
             # TODO create new function for below code
+            # select all image where image.feed = user.subscriptions.feed(each)
             images = []
             for sub in User.query.get(user_id).subscriptions:
                 for image in sub.feed.images:
-                    images.append({"url" : image.url, "source" : image.source, "date" : image.date})
+                    images.append(image.__dict__)
             return render_template('index.html', images=images)
         except:
             print('found user but could not load subscriptions')
             return render_template('index.html', images=images)
 
 # url -> (array json)
-# receives an rss feed url and returns and array of json objects
+# receives an rss feed url and returns an array of json objects
 @app.route('/addfeed')
 def addfeed():
     url = request.args.get('url').strip()
-    url_to_db(url)
-    add_sub(url, request.cookies['id'])
-    return parser.url_to_json(url)
+    feed = url_to_db(url)
+    # only returns json of new images if user isn't already subscribed
+    if add_sub(url, request.cookies['id']) == 2:
+        print ('already subscribed to feed')
+        return jsonify([])
+
+    return jsonify(list(map(sqlrow_to_json, feed.images.all())))
+
+# feed id -> removes subscription
+@app.route('/removefeed')
+def removefeed():
+    remove_sub(request.args.get('feedid'), request.cookies['id'])
+    return []
 
 # ----------- Functions --------------
+
+# SQLAlc Obj -> json
+# takes an sqlalchemy row and converts it to a dict stripping sa instance state
+def sqlrow_to_json(sqlrow):
+    sqlrow = sqlrow.__dict__
+    sqlrow.pop('_sa_instance_state', None)
+    return sqlrow
 
 # String, String -> SQL User objects
 # Creates a new user with Username Password in the next available db position
@@ -127,7 +146,14 @@ def new_user_db(username, password):
     print('made new user')
     return new_user
 
-# URL, user_id -> DB subscriptions entry
+# FeedID, user_id -> DB Subscriptions removal, int
+# takes a feed Id and user ID and removes the corrosponding subscription
+def remove_sub(feed_id, user_id):
+    sub = Subscriptions.query.filter_by(feed_id=feed_id).filter_by(user_id=user_id).first()
+    db.session.delete(sub)
+    db.session.commit()
+
+# URL, user_id -> DB subscriptions entry, Int
 # takes a user ID and url and adds a subscriptions entry in the database
 # ASSUME. url already exists
 def add_sub(url, user_id):
@@ -137,19 +163,20 @@ def add_sub(url, user_id):
     # make sure url exists as a feed before adding a subscription
     if feed_query is None:
         print('Couldnt find feed with this url in db, did not sub')
-        return
+        return 1
 
     # make sure user is not already subscribed to feed
     if Subscriptions.query.filter((Subscriptions.feed_id == feed_query.id) & (Subscriptions.user_id == user.id)).first() is not None:
         print ('Subscription already exists, did not add sub')
-        return
+        return 2
 
     new_sub = Subscriptions(feed_query, user)
     db.session.add(new_sub)
     db.session.commit()
+    return 0
 
 # URL -> populates Database
-# takes a url and populates the database with information
+# takes a rss url and populates the database with the feed and all images
 # TODO
 def url_to_db(url):
 
@@ -182,3 +209,4 @@ def url_to_db(url):
 
     loie_to_db(parser.get_images(url))
     db.session.commit()
+    return feed

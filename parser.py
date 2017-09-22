@@ -232,3 +232,32 @@ def lourl_to_loie(lourl):
 def write_json (json, int):
     f = open('feed_content/' + str(int) +'.json', 'w+')
     f.write(json)
+
+# URL -> RSS url
+# Takes a url and tried to find the corrosponding rss feed
+# check expects
+# http://deathbulge.com -> http://deathbulge.com/rss.xml
+# deathbulge.com -> http://deathbulge.com/rss.xml
+# www.deathbulge.com -> http://deathbulge.com/rss.xml
+# http://deep-dark-fears.tumblr.com - >http://deep-dark-fears.tumblr.com/rss
+# https://loadingartist.com/ -> http://feeds.feedburner.com/LoadingArtist
+# https://loadingartist.com/ -> https://loadingartist.com/feed/
+# http://www.poorlydrawnlines.com/ -> http://feeds.feedburner.com/PoorlyDrawnLines This is in the HTML source
+# http://www.poorlydrawnlines.com/ -> http://www.poorlydrawnlines.com/feed/ This works too
+# None of the dieline rss feeds below serve current content
+# http://www.thedieline.com/blog/ -> http://feeds.feedburner.com/TheDieline -> http://feeds.feedblitz.com/thedieline (redirects to here)
+# http://www.thedieline.com/blog/ -> http://feeds.feedblitz.com/thedieline From blog page source
+# http://www.thedieline.com/ -> http://www.thedieline.com/index?format=RSS From homepage source (this is basically empty though)
+# http://www.thedieline.com/ -> http://feeds.feedburner.com/TheDieline
+# http://www.thedieline.com/blog/ -> http://www.thedieline.com/blog?format=rss This has the best content
+# http://www.underconsideration.com/artofthemenu/ -> http://feeds.feedburner.com/ucllc/artofthemenu
+# http://fontsinuse.com/ -> http://feeds.feedburner.com/FontsInUseAll
+# http://fontsinuse.com/ -> http://feeds.feedburner.com/FontsInUse NOT!
+# http://www.geek-art.net/ -> http://www.geek-art.net/?feed=rss2
+# http://www.geek-art.net/ -> http://www.geek-art.net/en/feed/
+# https://theleagueofmoveabletype.com/ -> https://www.theleagueofmoveabletype.com/rss
+# https://blog.theleagueofmoveabletype.com/ -> https://blog.theleagueofmoveabletype.com/feed
+# https://theimpossiblecool.tumblr.com/post/165436246158 -> https://theimpossiblecool.tumblr.com/rss
+# http://www.vinylpulse.com/ -> http://www.vinylpulse.com/atom.xml
+def url_to_rss(url): #this is the stub
+    return url

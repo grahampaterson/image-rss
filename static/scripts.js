@@ -23,10 +23,15 @@ $(document).ready(function() {
       })
     })
   }
-  
+
   function appendImages(arrayImages, callback) {
     for (i = 0; i < arrayImages.length; i++){
-      var $item = $('<div data-date="' + arrayImages[i].date + '" class="grid-item"><a href="' + arrayImages[i].source + '"><img src="' + arrayImages[i].url + '" /></a></div>')
+
+      // var $item = $('<div data-feedid="' + arrayImages[i].feed_id + '" data-date="' + arrayImages[i].date + '" class="grid-item"><a href="' + arrayImages[i].source + '"><img src="' + arrayImages[i].url + '" /></a></div>')
+      var $item = $(`<div data-feedid=${ arrayImages[i].feed_id } data-date=${ arrayImages[i].date } class="grid-item">
+                      <a href="${ arrayImages[i].source }">
+                        <img src="${ arrayImages[i].url }" />
+                      </a></div>`)
       $('.grid').append( $item )
       .isotope('appended', $item );
     }
