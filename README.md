@@ -15,7 +15,8 @@
 
 ## Todos
 
-- implement list of subs on screen with option to remove subs
+- implement list of subs on screen with option to remove subs __DONE__
+- when removing subs remove them from the active page __DONE__
 - add to github??
 - convert regular urls to rss urls
 - confirm feed before adding to subscriptions
@@ -23,6 +24,6 @@
 - Login system
 - Loader while feed is adding
 - Lazy load images if the user has a large amount of subs
-- list of added feeds with a remove button
-- add feed id to each image element so that I can manipulate active screen
+- list of added feeds with a remove button __DONE__
+- add feed id to each image element so that I can manipulate active screen __DONE__
 - combine data from similar urls, or give option to select correct rss from similar urls

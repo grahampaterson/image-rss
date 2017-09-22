@@ -70,7 +70,7 @@ class Subscriptions(db.Model):
         self.user = user
 
     def __repr__(self):
-        return '<Subscription %r>' % self.user_id
+        return '<Subscription %r>' % self.id
 
 # ----------- Application routes Flask --------------
 
@@ -116,18 +116,26 @@ def addfeed():
     url = request.args.get('url').strip()
     feed = url_to_db(url)
     # only returns json of new images if user isn't already subscribed
-    if add_sub(url, request.cookies['id']) == 2:
+    sub = add_sub(url, request.cookies['id'])
+    # some kind of join here
+    sub_info = {'subid' : sub.id, 'feedurl' : sub.feed.url}
+
+    if sub == 2:
         print ('already subscribed to feed')
         return jsonify([])
 
-    return jsonify(list(map(sqlrow_to_json, feed.images.all())))
+    image_list = list(map(sqlrow_to_json, feed.images.all()))
+    response = {'images' : image_list, 'sub' : sub_info}
+
+    return jsonify(response)
 
 # sub id -> removes subscription, integer
 # removes the sub id from db and returns feed id to be removed
 @app.route('/removefeed')
 def removefeed():
-    feedid = remove_sub(request.args.get('subid'))
-    return jsonify({'feedid': feedid})
+    sub_id = request.args.get('subid')
+    feed_id = remove_sub(sub_id)
+    return jsonify({'feedid': feed_id, 'subid' : sub_id })
 
 # ----------- Functions --------------
 
@@ -178,7 +186,7 @@ def add_sub(url, user_id):
     new_sub = Subscriptions(feed_query, user)
     db.session.add(new_sub)
     db.session.commit()
-    return 0
+    return new_sub
 
 # URL -> populates Database
 # takes a rss url and populates the database with the feed and all images

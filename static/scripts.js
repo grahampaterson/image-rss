@@ -6,30 +6,52 @@ $(document).ready(function() {
       $.getJSON($SCRIPT_ROOT + '/addfeed', {
         url: $('input[name="url"]').val(),
       }, function(data) {
-        appendImages(data, removeSmall)
-        // TODO and subscription information to page
+        appendImages(data.images, removeSmall);
+        addSub(data.sub);
       });
       return false;
     });
   });
+
+  // fucntion to addsub to listing
+  function addSub(sub) {
+    console.log(sub);
+    $newsub = $(`<p>${ sub.feedurl } <a href=# class=sub data-id=${ sub.subid } >[remove]</a></p>`)
+    $('#sublist').append($newsub)
+  }
 
   // function to remove subscription
   // on clicking a remove button sends the subscription id to the server
   // if the subscription is succesfully removed from server remove the sub contents
   // from the page
   $(function() {
-    $('.sub').bind('click', function() {
+    $('#sublist').on('click', '.sub', function() {
       $.getJSON($SCRIPT_ROOT + '/removefeed', {
-        subid: $(this).data('id'),// TODO get feed id
+        subid: $(this).data('id'),
       }, function(data) {
         if (data.feedid > 0) {
-          //TODO removeImages(data.feedid);
-          console.log(data.feedid);
+          removeImages(data.feedid);
+          removeSub(data.subid)
         };
       });
       return false;
     });
   });
+
+  // removes a sub entry
+  function removeSub(subid) {
+    $('.sub').filter('[data-id=' + subid + ']').parent().remove();
+  }
+
+  // removes images from isotope layout based on feed id
+  function removeImages(feedId) {
+    $('.grid-item').filter('[data-feedid=' + feedId + ']')
+    .each(function() {
+      $('.grid').isotope('remove', $(this))
+      .isotope('layout');
+      // $(this).remove();
+    })
+  }
 
   function removeSmall() {
     $('.grid-item').each(function() {
@@ -45,7 +67,6 @@ $(document).ready(function() {
 
   function appendImages(arrayImages, callback) {
     for (i = 0; i < arrayImages.length; i++){
-
       // var $item = $('<div data-feedid="' + arrayImages[i].feed_id + '" data-date="' + arrayImages[i].date + '" class="grid-item"><a href="' + arrayImages[i].source + '"><img src="' + arrayImages[i].url + '" /></a></div>')
       var $item = $(`<div data-feedid=${ arrayImages[i].feed_id } data-date=${ arrayImages[i].date } class="grid-item">
                       <a href="${ arrayImages[i].source }">
