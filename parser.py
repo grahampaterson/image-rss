@@ -1,10 +1,12 @@
 import feedparser
+import requests
 from bs4 import BeautifulSoup
 import time
 import calendar
 import json
 import os
 import ssl
+import tldextract
 
 # Data Definitions
 # ==============================================================================
@@ -14,7 +16,6 @@ import ssl
 
 IMG1 = "https://i2.wp.com/www.geek-art.net/wp-content/uploads/2017/07/Filip-Hodas-Mario.jpg?w=1120"
 IMG2 = "https://i0.wp.com/www.geek-art.net/wp-content/uploads/2017/06/Spider-Gwen-Phantom-City-Creative.jpg?w=750"
-
 
 # listOfImage is one of:
 # - empty
@@ -32,7 +33,6 @@ LOI2 = [IMG1, IMG2]
 #         ...
 #             fn_for_image(loi[0])
 #             fn_for_loi(loi[1:])
-
 
 # Post is compound (title, url, date, images)
 # Post is makePost(string, string, tuple, (listof Images))
@@ -92,7 +92,6 @@ IE3 = makeImgEle("www.image.com/image3.jpg", "www.url2.com", 2345)
 # - [Post] + [listofPosts]
 # interp. a list of Image
 LOIE1 = [IE1, IE2, IE3]
-
 
 # Functions
 # ==============================================================================
@@ -233,8 +232,9 @@ def write_json (json, int):
     f = open('feed_content/' + str(int) +'.json', 'w+')
     f.write(json)
 
-# URL -> RSS url
-# Takes a url and tried to find the corrosponding rss feed
+# URL -> (listof RSS url)
+# Takes a url and returns a list of all valid rss feeds
+# Note: some feed may not be relevant to the website at all
 # check expects
 # http://deathbulge.com -> http://deathbulge.com/rss.xml
 # deathbulge.com -> http://deathbulge.com/rss.xml
@@ -259,5 +259,42 @@ def write_json (json, int):
 # https://blog.theleagueofmoveabletype.com/ -> https://blog.theleagueofmoveabletype.com/feed
 # https://theimpossiblecool.tumblr.com/post/165436246158 -> https://theimpossiblecool.tumblr.com/rss
 # http://www.vinylpulse.com/ -> http://www.vinylpulse.com/atom.xml
-def url_to_rss(url): #this is the stub
-    return url
+def url_to_listrss(url): #this is the stub
+    rss_list = []
+    # this searches the given url for any rss feeds defined in the page
+    r = requests.get(url)
+    soup = BeautifulSoup(r.content, 'html.parser')
+    for link in soup.find_all(type="application/rss+xml"):
+        rss_list.append(link.get('href'))
+
+    # feedparser fails if http:// is not included, so we add it here
+    if url[0:4] != 'http':
+        url = 'http://' + url
+    # adds trailing forward slash if it doesn't exist
+    if url[-1] != '/':
+        url = url + '/'
+
+    ext = tldextract.extract(url)
+    # possible rss urls with given url
+    rss_list.append(url + 'rss')
+    rss_list.append(url + 'rss.xml')
+    rss_list.append(url + 'feed')
+    rss_list.append(url + 'atom.xml')
+    rss_list.append(url + '?feed=rss2')
+    # possible rss urls with base url insteal of given url
+    rss_list.append('http://' + '.'.join(ext) + '/rss')
+    rss_list.append('http://' + '.'.join(ext) + '/rss.xml')
+    rss_list.append('http://' + '.'.join(ext) + '/feed')
+    rss_list.append('http://' + '.'.join(ext) + '/atom.xml')
+    rss_list.append('http://' + '.'.join(ext) + '/?feed=rss2')
+    # feedburner urls (wild guess)
+    rss_list.append('http://feeds.feedburner.com/' + ext.domain)
+    rss_list.append('http://feeds.feedblitz.com/' + ext.domain)
+
+    return rss_list
+
+# Listof RssUrls -> Listof RssUrls
+# takes a list of rss urls and filters out all invalid feeds
+# TODO
+def filter_rssurls(list_rss):
+    return list_rss

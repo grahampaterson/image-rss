@@ -31,7 +31,7 @@
   <div class="gutter-sizer"></div>
   {% for image in images %}
     <div class="grid-item" data-feedid={{ image.feed_id }} data-date={{ image.date }} >
-      <a href={{ image.source }} >
+      <a target="_blank" href={{ image.source }} >
         <img src={{ image.url }} />
       </a>
     </div>
