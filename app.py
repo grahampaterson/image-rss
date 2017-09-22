@@ -96,17 +96,18 @@ def index():
         # tries to get user's subs
         try:
             User.query.get(user_id)
+            subs = User.query.get(user_id).subscriptions
             # TODO update user last login with current date
             # TODO create new function for below code
             # select all image where image.feed = user.subscriptions.feed(each)
             images = []
-            for sub in User.query.get(user_id).subscriptions:
+            for sub in subs:
                 for image in sub.feed.images:
                     images.append(image.__dict__)
-            return render_template('index.html', images=images)
+            return render_template('index.html', images=images, subs=subs)
         except:
             print('found user but could not load subscriptions')
-            return render_template('index.html', images=images)
+            return render_template('index.html', images=images, subs=subs)
 
 # url -> (array json)
 # receives an rss feed url and returns an array of json objects
@@ -121,11 +122,12 @@ def addfeed():
 
     return jsonify(list(map(sqlrow_to_json, feed.images.all())))
 
-# feed id -> removes subscription
+# sub id -> removes subscription, integer
+# removes the sub id from db and returns feed id to be removed
 @app.route('/removefeed')
 def removefeed():
-    remove_sub(request.args.get('feedid'), request.cookies['id'])
-    return []
+    feedid = remove_sub(request.args.get('subid'))
+    return jsonify({'feedid': feedid})
 
 # ----------- Functions --------------
 
@@ -146,12 +148,15 @@ def new_user_db(username, password):
     print('made new user')
     return new_user
 
-# FeedID, user_id -> DB Subscriptions removal, int
+# FeedID, user_id -> DB Subscriptions removal, feed_id
 # takes a feed Id and user ID and removes the corrosponding subscription
-def remove_sub(feed_id, user_id):
-    sub = Subscriptions.query.filter_by(feed_id=feed_id).filter_by(user_id=user_id).first()
+def remove_sub(sub_id):
+    sub = Subscriptions.query.get(sub_id)
+    feedid = sub.feed.id
+    print('removed feed with id:' + sub_id)
     db.session.delete(sub)
     db.session.commit()
+    return feedid
 
 # URL, user_id -> DB subscriptions entry, Int
 # takes a user ID and url and adds a subscriptions entry in the database

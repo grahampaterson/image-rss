@@ -1,12 +1,31 @@
 
 $(document).ready(function() {
-  // form function to request server
+  // function to add feed subscription
   $(function() {
-    $('a#calculate').bind('click', function() {
+    $('a#addfeed').bind('click', function() {
       $.getJSON($SCRIPT_ROOT + '/addfeed', {
         url: $('input[name="url"]').val(),
       }, function(data) {
         appendImages(data, removeSmall)
+        // TODO and subscription information to page
+      });
+      return false;
+    });
+  });
+
+  // function to remove subscription
+  // on clicking a remove button sends the subscription id to the server
+  // if the subscription is succesfully removed from server remove the sub contents
+  // from the page
+  $(function() {
+    $('.sub').bind('click', function() {
+      $.getJSON($SCRIPT_ROOT + '/removefeed', {
+        subid: $(this).data('id'),// TODO get feed id
+      }, function(data) {
+        if (data.feedid > 0) {
+          //TODO removeImages(data.feedid);
+          console.log(data.feedid);
+        };
       });
       return false;
     });
