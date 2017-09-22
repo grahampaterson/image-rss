@@ -4,7 +4,7 @@ $(document).ready(function() {
   $(function() {
     $('a#addfeed').bind('click', function() {
       $.getJSON($SCRIPT_ROOT + '/addfeed', {
-        url: $('input[name="url"]').val(),
+        url: $('#feeds').val(),
       }, function(data) {
         appendImages(data.images, removeSmall);
         addSub(data.sub);
@@ -13,7 +13,7 @@ $(document).ready(function() {
     });
   });
 
-  // fucntion to addsub to listing
+  // function to addsub to listing
   function addSub(sub) {
     console.log(sub);
     $newsub = $(`<p>${ sub.feedurl } <a href=# class=sub data-id=${ sub.subid } >[remove]</a></p>`)
@@ -84,6 +84,10 @@ $(document).ready(function() {
   // initialize isotope
   $('.grid').isotope({
     itemSelector: '.grid-item',
+    sortBy : 'random',
+    masonry: {
+      gutter: '.gutter-sizer'
+    }
   })
   $('.grid').imagesLoaded().progress(function() {
     $('.grid').isotope('layout');

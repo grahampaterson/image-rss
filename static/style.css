@@ -8,7 +8,8 @@ body { font-family: sans-serif; }
 /* ---- grid ---- */
 
 .grid {
-  background: #DDD;
+  background: #fafafa;
+  margin:1vw;
 }
 
 /* clear fix */
@@ -22,11 +23,18 @@ body { font-family: sans-serif; }
 
 .grid-sizer,
 .grid-item {
-  width: 25%;
+  width: 24%;
+}
+
+.gutter-sizer {
+  width: 1%;
 }
 
 .grid-item {
   float: left;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1vw;
 }
 
 .grid-item img {

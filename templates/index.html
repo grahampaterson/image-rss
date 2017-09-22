@@ -1,16 +1,24 @@
 {% extends "layout.html" %}
 {% block body %}
-<!-- <form id="geturl" name="rssurl" method="get">
-  RSS URL
-  <input type="text" name="url">
-  <input type="submit" value="Submit">
-</form> -->
-http://beeple.tumblr.com/rss <br>
-http://feeds.feedblitz.com/thedieline <br>
-https://theimpossiblecool.tumblr.com/rss <br>
-http://feeds.feedburner.com/LoadingArtist <br>
-http://feeds.feedburner.com/Logopond <br>
-http://www.geek-art.net/en/feed/ <br>
+<!-- Testing dropdown -->
+<select id=feeds >
+  <option>http://beeple.tumblr.com/rss </option>
+  <option>http://feeds.feedblitz.com/thedieline </option>
+  <option>https://theimpossiblecool.tumblr.com/rss </option>
+  <option>http://feeds.feedburner.com/LoadingArtist </option>
+  <option>http://feeds.feedburner.com/Logopond </option>
+  <option>http://www.geek-art.net/en/feed/ </option>
+  <option>https://elentori-art.tumblr.com/rss</option>
+  <option>http://199hates.tumblr.com/rss</option>
+  <option>http://shitty-bastard.tumblr.com/rss</option>
+  <option>http://mrhipp.tumblr.com/rss</option>
+  <option>http://herecomestherain.tumblr.com/rss</option>
+  <option>http://yunta0722.tumblr.com/rss</option>
+  <option>http://lesstalkmoreillustration.com/rss</option>
+</select>
+<!-- <input id=feeds> -->
+<a href=# id=addfeed><button>Add Feed</button></a>
+
 <div id="sublist" >
   <h3>Your Subscriptions</h3>
   {% for sub in subs %}
@@ -18,12 +26,9 @@ http://www.geek-art.net/en/feed/ <br>
   {% endfor %}
 </div>
 
-RSS URL
-<input type=text size=5 name=url>
-<span id=result>?</span>
-<a href=# id=addfeed>Get Images</a>
 <div class="grid">
   <div class="grid-sizer"></div>
+  <div class="gutter-sizer"></div>
   {% for image in images %}
     <div class="grid-item" data-feedid={{ image.feed_id }} data-date={{ image.date }} >
       <a href={{ image.source }} >
