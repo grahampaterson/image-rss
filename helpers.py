@@ -1,4 +1,5 @@
 import time
+import inspect
 
 # CONSTANTS
 # ===================================================
@@ -15,8 +16,8 @@ def log(string):
     try:
         f = open(LOG_FILE, 'a') #opens file with append mode
         current_time = time.ctime()
-        # get the filename and function name
-        f.write(current_time + ' ' + string + "\n")  # add details to log file imestamped with file name
+        function_caller = inspect.stack()[1][3]
+        f.write(current_time + ' ' + function_caller + '() ' + string + "\n")  # add details to log file imestamped with file name
         return 1
     except:
         return 0

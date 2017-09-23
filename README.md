@@ -33,3 +33,4 @@
 - Add hover state to cards with website url a la pinterest
 - Make links open in new window for grid items
 - Add timestamped logging to file
+- Analyze images server side so we can preload coloured blocks of correct scale and load image sprogressively

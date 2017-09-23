@@ -48,6 +48,9 @@ class FeedImage(db.Model):
         return '<FeedImage %r>' % self.url
 
 class Feed(db.Model):
+    __table_args__ = {
+        'sqlite_autoincrement': True,
+    }
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.String())
 
@@ -58,6 +61,9 @@ class Feed(db.Model):
         return '<Feed %r>' % self.url
 
 class Subscriptions(db.Model):
+    __table_args__ = {
+        'sqlite_autoincrement': True,
+    }
     id = db.Column(db.Integer, primary_key=True)
 
     feed_id = db.Column(db.Integer, db.ForeignKey('feed.id'))
@@ -129,7 +135,7 @@ def addfeed():
 
     image_list = list(map(sqlrow_to_json, feed.images.all()))
     response = {'images' : image_list, 'sub' : sub_info}
-
+    log('Returned JSON to be added to page')
     return jsonify(response)
 
 # sub id -> removes subscription, integer

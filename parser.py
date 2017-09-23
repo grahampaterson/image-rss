@@ -118,39 +118,39 @@ def get_posts(url):
 
         lop = []
         for post in feed.entries:
-            newpost = makePost("no title", "#", (2004, 1, 1, 19, 48, 21, 3, 1, 0), [])
+            new_post = makePost("no title", "#", (2004, 1, 1, 19, 48, 21, 3, 1, 0), [])
+            errors = ''
             try:
-                newpost.title = post.title
+                new_post.title = post.title
             except:
                 log("Parsing rss for images: post has no title tag ")
             try:
-                newpost.url = post.link
+                new_post.url = post.link
             except:
                 log("Parsing rss for images: post has no link tag ")
             try:
-                newpost.date = post.published_parsed
+                new_post.date = post.published_parsed
             except:
                 log("Parsing rss for images: post has no date tag ")
             try:
-                newpost.images = parse_for_images(post.content)
-                lop.append(newpost)
+                new_post.images = parse_for_images(post.content)
+                lop.append(new_post)
                 continue
             except:
-                log("Parsing rss for images: post has no content tag ")
+                errors += 'content tag'
             try:
-                newpost.images = html_to_loi(string_to_image(post.description))
-                lop.append(newpost)
+                new_post.images = html_to_loi(string_to_image(post.description))
+                lop.append(new_post)
                 continue
             except:
-                log("Parsing rss for images: post has no description tag ")
+                errors += ', description tag'
             try:
-                newpost.images = html_to_loi(string_to_image(post.summary))
-                lop.append(newpost)
+                new_post.images = html_to_loi(string_to_image(post.summary))
+                lop.append(new_post)
                 continue
             except:
-                log("Parsing rss for images: post has no summary tag ")
-
-            log("Parsing rss for images: failed to parse post " + post.link)
+                errors += ', summary tag. '
+            log('Couldnt parse feed because it had no: ' + errors + post.link)
 
         return lop
 

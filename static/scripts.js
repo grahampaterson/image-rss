@@ -8,6 +8,7 @@ $(document).ready(function() {
       }, function(data) {
         appendImages(data.images, removeSmall);
         addSub(data.sub);
+        $('.grid').isotope('reloadItems').isotope();
       });
       return false;
     });
@@ -73,8 +74,8 @@ $(document).ready(function() {
                       <a target="_blank" href="${ arrayImages[i].source }">
                         <img src="${ arrayImages[i].url }" />
                       </a></div>`)
-      $('.grid').append( $item )
-      .isotope('appended', $item );
+      $('.grid').prepend( $item )
+      .isotope('prepended', $item );
     }
     $('.grid').imagesLoaded().progress(function() {
       $('.grid').isotope('layout');
@@ -85,7 +86,11 @@ $(document).ready(function() {
   // initialize isotope
   $('.grid').isotope({
     itemSelector: '.grid-item',
-    sortBy : 'random',
+    getSortData: {
+      date: '[data-date]'
+    },
+    sortBy : 'date',
+    sortAscending: false,
     masonry: {
       gutter: '.gutter-sizer'
     }
