@@ -17,6 +17,7 @@
 
 ## Todos
 
+- Update feeds automatically each day
 - implement list of subs on screen with option to remove subs __DONE__
 - when removing subs remove them from the active page __DONE__
 - add to github??
@@ -31,3 +32,4 @@
 - combine data from similar urls, or give option to select correct rss from similar urls
 - Add hover state to cards with website url a la pinterest
 - Make links open in new window for grid items
+- Add timestamped logging to file

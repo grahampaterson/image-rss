@@ -4,6 +4,7 @@ import datetime
 import json
 
 import parser
+from helpers import *
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///imagerssdb.sqlite'
@@ -92,7 +93,7 @@ def index():
         return resp
     # load the users' subscriptions
     else:
-        print('found cookie')
+        log('Found a cookie and logged in user:' + user_id)
         # tries to get user's subs
         try:
             User.query.get(user_id)
@@ -106,7 +107,7 @@ def index():
                     images.append(image.__dict__)
             return render_template('index.html', images=images, subs=subs)
         except:
-            print('found user but could not load subscriptions')
+            log('Could not load the current users subscriptions with user id:' + user_id)
             return render_template('index.html', images=images, subs=subs)
 
 # url -> (array json)
@@ -114,15 +115,17 @@ def index():
 @app.route('/addfeed')
 def addfeed():
     url = request.args.get('url').strip()
+    log('User tried to add feed with url ' + url)
     feed = url_to_db(url)
     # only returns json of new images if user isn't already subscribed
     sub = add_sub(url, request.cookies['id'])
-    # some kind of join here
-    sub_info = {'subid' : sub.id, 'feedurl' : sub.feed.url}
 
     if sub == 2:
-        print ('already subscribed to feed')
+        log ('already subscribed to feed')
         return jsonify([])
+
+    # some kind of join here
+    sub_info = {'subid' : sub.id, 'feedurl' : sub.feed.url}
 
     image_list = list(map(sqlrow_to_json, feed.images.all()))
     response = {'images' : image_list, 'sub' : sub_info}
@@ -153,15 +156,15 @@ def new_user_db(username, password):
     new_user = User(username, password, 0)
     db.session.add(new_user)
     db.session.commit()
-    print('made new user')
+    log('A new user was created with id:' + new_user.id)
     return new_user
 
-# FeedID, user_id -> DB Subscriptions removal, feed_id
+# SubID -> DB Subscriptions removal, feed_id
 # takes a feed Id and user ID and removes the corrosponding subscription
 def remove_sub(sub_id):
     sub = Subscriptions.query.get(sub_id)
     feedid = sub.feed.id
-    print('removed feed with id:' + sub_id)
+    log('User:' + str(sub.user_id) + ' removed sub with id:' + str(sub_id))
     db.session.delete(sub)
     db.session.commit()
     return feedid
@@ -175,12 +178,12 @@ def add_sub(url, user_id):
 
     # make sure url exists as a feed before adding a subscription
     if feed_query is None:
-        print('Couldnt find feed with this url in db, did not sub')
+        log('Adding Sub: Couldnt find feed with this url in db, did not sub')
         return 1
 
     # make sure user is not already subscribed to feed
     if Subscriptions.query.filter((Subscriptions.feed_id == feed_query.id) & (Subscriptions.user_id == user.id)).first() is not None:
-        print ('Subscription already exists, did not add sub')
+        log ('Adding Sub: Subscription already exists, did not add sub')
         return 2
 
     new_sub = Subscriptions(feed_query, user)
@@ -205,13 +208,13 @@ def url_to_db(url):
         # adds image if it's url doesn''t already exist in db
         check_feed = FeedImage.query.filter_by(url=ie.url).first()
         if check_feed is None:
-            print('url didnt exist, added')
+            log('Tried to add image to db: url didnt exist, added')
             db.session.add(FeedImage(ie.source, ie.url, ie.date, feed))
         elif check_feed.feed != feed:
-            print('feeds dont match, added')
+            log('Tried to add image to db: url existed but feed id doesnt match, added')
             db.session.add(FeedImage(ie.source, ie.url, ie.date, feed))
         else:
-            print('url exists and feeds match, didnt add')
+            log('Tried to add image to db: url exists and feeds match, didnt add')
 
 
     # (listof Imageelements) -> Populate Database

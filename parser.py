@@ -7,6 +7,7 @@ import json
 import os
 import ssl
 import tldextract
+from helpers import *
 
 # Data Definitions
 # ==============================================================================
@@ -112,7 +113,7 @@ def get_posts(url):
         # Error handling if the feed is a "bozo" (badly formed) rss feed. No data is
         # returned
         if (feed.bozo == 1):
-            print ('Bozo Feed ' + feed.bozo_exception)
+            log('Bozo Feed ' + feed.bozo_exception)
             return []
 
         lop = []
@@ -121,35 +122,35 @@ def get_posts(url):
             try:
                 newpost.title = post.title
             except:
-                print("post has no title tag ")
+                log("Parsing rss for images: post has no title tag ")
             try:
                 newpost.url = post.link
             except:
-                print("post has no link tag ")
+                log("Parsing rss for images: post has no link tag ")
             try:
                 newpost.date = post.published_parsed
             except:
-                print("post has no date tag ")
+                log("Parsing rss for images: post has no date tag ")
             try:
                 newpost.images = parse_for_images(post.content)
                 lop.append(newpost)
                 continue
             except:
-                print("post has no content tag ")
+                log("Parsing rss for images: post has no content tag ")
             try:
                 newpost.images = html_to_loi(string_to_image(post.description))
                 lop.append(newpost)
                 continue
             except:
-                print("post has no description tag ")
+                log("Parsing rss for images: post has no description tag ")
             try:
                 newpost.images = html_to_loi(string_to_image(post.summary))
                 lop.append(newpost)
                 continue
             except:
-                print("post has no summary tag ")
+                log("Parsing rss for images: post has no summary tag ")
 
-            print("failed to parse post " + post.link)
+            log("Parsing rss for images: failed to parse post " + post.link)
 
         return lop
 
@@ -173,7 +174,7 @@ def get_posts(url):
             if (img.attrs['src'].find('feedads')) == -1:
                 return img.attrs['src']
         except:
-            print ('no src tag in ' + img)
+            log ('no src tag in ' + img)
 
     # HTMLString -> (listof HTMLimgTags)
     # takes a string containing html tags and returns a list of html image tags
@@ -273,20 +274,23 @@ def url_to_listrss(url): #this is the stub
     # adds trailing forward slash if it doesn't exist
     if url[-1] != '/':
         url = url + '/'
-
+    # extracting just the domain without any children pages
     ext = tldextract.extract(url)
-    # possible rss urls with given url
-    rss_list.append(url + 'rss')
-    rss_list.append(url + 'rss.xml')
-    rss_list.append(url + 'feed')
-    rss_list.append(url + 'atom.xml')
-    rss_list.append(url + '?feed=rss2')
-    # possible rss urls with base url insteal of given url
-    rss_list.append('http://' + '.'.join(ext) + '/rss')
-    rss_list.append('http://' + '.'.join(ext) + '/rss.xml')
-    rss_list.append('http://' + '.'.join(ext) + '/feed')
-    rss_list.append('http://' + '.'.join(ext) + '/atom.xml')
-    rss_list.append('http://' + '.'.join(ext) + '/?feed=rss2')
+
+    def should_add(url, ext, suffix):
+        if (url + suffix) == ('http://' + '.'.join(part for part in ext if part) + '/' + suffix):
+            return [(url + suffix)]
+        elif (url + suffix) == ('https://' + '.'.join(part for part in ext if part) + '/' + suffix):
+            return [(url + suffix)]
+        else:
+            return [(url + suffix), ('http://' + '.'.join(part for part in ext if part) + '/' + suffix)]
+
+    rss_list += should_add(url, ext, 'rss')
+    rss_list += should_add(url, ext, 'rss.xml')
+    rss_list += should_add(url, ext, 'feed')
+    rss_list += should_add(url, ext, 'atom.xml')
+    rss_list += should_add(url, ext, '?feed=rss2')
+    rss_list += should_add(url, ext, '?format=rss')
     # feedburner urls (wild guess)
     rss_list.append('http://feeds.feedburner.com/' + ext.domain)
     rss_list.append('http://feeds.feedblitz.com/' + ext.domain)
@@ -294,7 +298,14 @@ def url_to_listrss(url): #this is the stub
     return rss_list
 
 # Listof RssUrls -> Listof RssUrls
-# takes a list of rss urls and filters out all invalid feeds
+# takes a list of rss urls and filters out all invalid feeds and duplicates
 # TODO
 def filter_rssurls(list_rss):
-    return list_rss
+    # TODO remove duplcate feed content
+    def is_bozo(feed):
+        x = feedparser.parse(feed)
+        if x.bozo == 0:
+            return True
+
+    return list(filter(is_bozo, list_rss))
+    # return list_rss

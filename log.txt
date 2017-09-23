@@ -1,0 +1,88 @@
+Sat Sep 23 15:14:56 2017 found cookie
+Sat Sep 23 15:15:13 2017 removed feed with id:13
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 post has no content tag 
+Sat Sep 23 15:15:24 2017 url didnt exist, added
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:15:24 2017 url exists and feeds match, didnt add
+Sat Sep 23 15:21:09 2017 Found a cookie and logged in user:4
+Sat Sep 23 15:21:22 2017 removed feed with id:15
+Sat Sep 23 15:23:51 2017 Found a cookie and logged in user:4
+Sat Sep 23 15:24:33 2017 Found a cookie and logged in user:4
+Sat Sep 23 15:24:35 2017 User:4 removed sub with id:14
+Sat Sep 23 15:27:21 2017 Found a cookie and logged in user:4
+Sat Sep 23 15:27:36 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:36 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:36 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:36 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:36 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:36 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:36 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:36 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:36 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:36 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:36 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:36 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:36 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:36 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:36 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:36 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:37 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:37 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:37 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:37 2017 Parsing rss for images: post has no content tag 
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
+Sat Sep 23 15:27:37 2017 Tried to add image to db: url exists and feeds match, didnt add
