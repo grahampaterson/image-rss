@@ -87,7 +87,8 @@ $(document).ready(function() {
   $('.grid').isotope({
     itemSelector: '.grid-item',
     getSortData: {
-      date: '[data-date]'
+      date: '[data-date]',
+      feedId: '[data-feedid]'
     },
     sortBy : 'date',
     sortAscending: false,
@@ -98,5 +99,10 @@ $(document).ready(function() {
   $('.grid').imagesLoaded().progress(function() {
     $('.grid').isotope('layout');
     removeSmall()
+  })
+
+  //function to shuffle results
+  $('#shuffle').on('click', function() {
+    $('.grid').isotope('shuffle');
   })
 })

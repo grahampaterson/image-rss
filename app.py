@@ -34,6 +34,7 @@ class FeedImage(db.Model):
     source = db.Column(db.String())
     url = db.Column(db.String())
     date = db.Column(db.Integer)
+    date_added = db.Column(db.DateTime)
 
     feed_id = db.Column(db.Integer, db.ForeignKey('feed.id'))
     feed = db.relationship('Feed', backref=db.backref('images', lazy='dynamic'))
@@ -42,6 +43,7 @@ class FeedImage(db.Model):
         self.source = source
         self.url = url
         self.date = date
+        self.date_added = datetime.datetime.utcnow()
         self.feed = feed
 
     def __repr__(self):
@@ -137,6 +139,13 @@ def addfeed():
     response = {'images' : image_list, 'sub' : sub_info}
     log('Returned JSON to be added to page')
     return jsonify(response)
+
+# TODO
+# Takes a url and displays the most appropriate rss feed , from here you can added
+# a subscription to your account
+@app.route('/subscribe')
+def subscribe():
+    return render_template('subscribe.html')
 
 # sub id -> removes subscription, integer
 # removes the sub id from db and returns feed id to be removed
