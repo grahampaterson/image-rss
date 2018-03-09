@@ -132,7 +132,7 @@ def addfeed():
         log ('already subscribed to feed')
         return jsonify([])
 
-    # some kind of join here
+    # some kind of sql join here
     sub_info = {'subid' : sub.id, 'feedurl' : sub.feed.url}
 
     image_list = list(map(sqlrow_to_json, feed.images.all()))
@@ -211,7 +211,7 @@ def add_sub(url, user_id):
 # TODO
 def url_to_db(url):
 
-    # try find url and if it doesn't exist create it
+    # try find url in database and if it doesn't exist create it
     feed = Feed.query.filter_by(url=url).first()
     if (feed is None):
         feed = Feed(url)

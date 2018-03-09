@@ -181,7 +181,7 @@ def get_posts(url):
     def string_to_image (str):
         return BeautifulSoup(str, 'html.parser').find_all('img')
 
-    return string_to_lop(url)
+    return string_to_lop(url) #Trampoline
 
 # (listof Post) -> (listof ImageElement)
 # takes a list of posts and returns a combined list of all the images
