@@ -122,6 +122,7 @@ def index():
 # receives an rss feed url and returns an array of json objects
 @app.route('/addfeed')
 def addfeed():
+    # get request with with key "url" TODO redirect if key not found
     url = request.args.get('url').strip()
     log('User tried to add feed with url ' + url)
     feed = url_to_db(url)
