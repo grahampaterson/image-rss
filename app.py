@@ -4,11 +4,14 @@ import datetime
 import json
 
 import parser
-from helpers import *
+from helpers import log
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///imagerssdb.sqlite'
 db = SQLAlchemy(app)
+
+# ----------- Constants ----------------
+PORT = 5000
 
 # ----------- Database Stuff --------------
 
