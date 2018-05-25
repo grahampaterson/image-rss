@@ -125,6 +125,8 @@ def index():
 # receives an rss feed url and returns an array of json objects
 @app.route('/addfeed')
 def addfeed():
+    """receives an rss feed url and returns an array of json objects
+    """
     # get request with with key "url" TODO redirect if key not found
     url = request.args.get('url').strip()
     log('User tried to add feed with url ' + url)
@@ -133,7 +135,7 @@ def addfeed():
     sub = add_sub(url, request.cookies['id'])
 
     if sub == 2:
-        log ('already subscribed to feed')
+        log('already subscribed to feed')
         return jsonify([])
 
     # some kind of sql join here
@@ -202,7 +204,7 @@ def add_sub(url, user_id):
 
     # make sure user is not already subscribed to feed
     if Subscriptions.query.filter((Subscriptions.feed_id == feed_query.id) & (Subscriptions.user_id == user.id)).first() is not None:
-        log ('Adding Sub: Subscription already exists, did not add sub')
+        log('Adding Sub: Subscription already exists, did not add sub')
         return 2
 
     new_sub = Subscriptions(feed_query, user)
@@ -217,7 +219,7 @@ def url_to_db(url):
 
     # try find url in database and if it doesn't exist create it
     feed = Feed.query.filter_by(url=url).first()
-    if (feed is None):
+    if feed is None:
         feed = Feed(url)
         db.session.add(feed)
 
@@ -247,4 +249,5 @@ def url_to_db(url):
     return feed
 
 if __name__ == "__main__":
-    app.run(debug=True,port=PORT)
+    app.run(debug=True, port=PORT)
+
