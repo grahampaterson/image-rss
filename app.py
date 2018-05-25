@@ -242,3 +242,6 @@ def url_to_db(url):
     loie_to_db(parser.get_images(url))
     db.session.commit()
     return feed
+
+if __name__ == "__main__":
+    app.run(debug=True,port=PORT)
