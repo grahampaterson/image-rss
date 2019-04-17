@@ -11,7 +11,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///imagerssdb.sqlite'
 db = SQLAlchemy(app)
 
 # ----------- Constants ----------------
-PORT = 5000
+PORT = 5001
 
 # ----------- Database Stuff --------------
 
@@ -177,7 +177,7 @@ def new_user_db(username, password):
     new_user = User(username, password, 0)
     db.session.add(new_user)
     db.session.commit()
-    log('A new user was created with id:' + new_user.id)
+    log('A new user was created with id:' + str(new_user.id))
     return new_user
 
 # SubID -> DB Subscriptions removal, feed_id
